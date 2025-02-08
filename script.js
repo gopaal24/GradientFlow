@@ -33,7 +33,7 @@ composer.addPass(renderPass)
 const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
 const cube = new THREE.Mesh(geometry, material);
-scene.add(cube)
+// scene.add(cube)
 
 // lights
 const ambient = new THREE.AmbientLight();
@@ -51,7 +51,7 @@ const shaderMaterial = new THREE.ShaderMaterial({
     fragmentShader
 })
 
-const plane = new THREE.Mesh(new THREE.PlaneGeometry(window.innerWidth/45, window.innerHeight/45), shaderMaterial);
+const plane = new THREE.Mesh(new THREE.PlaneGeometry(window.innerWidth/20, window.innerHeight/20), shaderMaterial);
 plane.position.z = -10
 scene.add(plane)
 
