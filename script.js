@@ -13,14 +13,11 @@ const fragmentShader = await loadShader("./shader/fragment.glsl")
 
 const clock = new THREE.Clock();
 
-// Create the scene
 const scene = new THREE.Scene();
 
-// Create a camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.z = 5;
 
-// Create a renderer
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -29,13 +26,10 @@ const composer = new EffectComposer(renderer);
 const renderPass = new RenderPass(scene, camera)
 composer.addPass(renderPass)
 
-// Create a geometry and a material, then combine them into a mesh
 const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
 const cube = new THREE.Mesh(geometry, material);
-// scene.add(cube)
 
-// lights
 const ambient = new THREE.AmbientLight();
 scene.add(ambient)
 
@@ -55,13 +49,12 @@ const plane = new THREE.Mesh(new THREE.PlaneGeometry(window.innerWidth/20, windo
 plane.position.z = -10
 scene.add(plane)
 
-//shaderpass code
 const GrainShader = {
     uniforms: {
-        'tDiffuse': { value: null },  // Input texture
-        'iTime': { value: 0 },        // Time for animation
-        'grainIntensity': { value: .1 }, // Adjust grain intensity
-        'grainSize': { value: 10.8 }   // Adjust grain size
+        'tDiffuse': { value: null },
+        'iTime': { value: 0 },
+        'grainIntensity': { value: 0.06 },
+        'grainSize': { value: 1.8 }
     },
 
     vertexShader: `
@@ -109,12 +102,10 @@ const GrainShader = {
     `
 };
 
-// Create and add the grain effect to your composer
 const grainPass = new ShaderPass(GrainShader);
 composer.addPass(grainPass);
 
 
-// Create an animation loop
 function animate() {
     requestAnimationFrame(animate);
 
@@ -123,14 +114,10 @@ function animate() {
     shaderMaterial.uniforms.iTime.value += elapsedTime;
     grainPass.uniforms.iTime.value += elapsedTime;
 
-    // Rotate the cube
     cube.rotation.x += 0.01;
     cube.rotation.y += 0.01;
 
-    // Render the scene from the perspective of the camera
-    // renderer.render(scene, camera);
     composer.render()
 }
 
-// Start the animation loop
 animate();
